@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<meta charset="UTF-8" />
+			<title>Autores</title>
+	</head>
+			<body>
+				<center>
+					<h1>Inclusão/Alteração de Autores</h1>
+					<br/>
+					<form th:action="@{/autores/gravar}"
+    				method="post" th:object="${autor}" action="#" >
+    				<input type="hidden"  th:field="*{id}" />
+    				Nome: <input type="text" name="nome" th:field="*{nome}"> <br/>
+    				<input type="submit" value="Enviar">
+					</form>
+				</center>
+			</body>
+</html>

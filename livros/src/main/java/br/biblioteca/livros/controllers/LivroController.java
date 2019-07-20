@@ -2,8 +2,11 @@ package br.biblioteca.livros.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,23 +22,21 @@ import br.biblioteca.livros.service.LivroService;
 @RequestMapping("/livros")
 @Controller
 public class LivroController {
-	
+
 	@Autowired
-	LivroService livroService;	
+	LivroService livroService;
 
 	@Autowired
 	AutorService autorService;
-		
+
 	@GetMapping("/list")
-	public ModelAndView list() 
-	{
+	public ModelAndView list() {
 		List<Livro> livros = livroService.listarLivros();
 		return new ModelAndView("livros/list", "listaLivros", livros);
 	}
-	
+
 	@GetMapping("/novo")
-	public ModelAndView newBook(@ModelAttribute Livro livro)
-	{
+	public ModelAndView newBook(@ModelAttribute Livro livro) {
 		ModelAndView modelAndView = new ModelAndView("livros/livro");
 		Iterable<Autor> autores = autorService.listarAutores();
 		modelAndView.addObject("autores", autores);
@@ -48,8 +49,17 @@ public class LivroController {
 		return new ModelAndView("redirect:/livros/list");
 	}
 
-	@PostMapping(value = "/gravar")
-	public ModelAndView create(Livro livro) {
+	/*
+	 * @PostMapping(value = "/gravar") public ModelAndView create(Livro livro) {
+	 * livroService.salvaLivro(livro); return new
+	 * ModelAndView("redirect:/livros/list"); }
+	 */
+
+	@RequestMapping(value = "/gravar")
+	public ModelAndView create(@ModelAttribute("livro") @Valid Livro livro, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("livros/livro");
+		}
 		livroService.salvaLivro(livro);
 		return new ModelAndView("redirect:/livros/list");
 	}

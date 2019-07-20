@@ -2,8 +2,11 @@ package br.biblioteca.livros.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,11 +46,24 @@ public class AutorController {
 		return new ModelAndView("redirect:/autores/list");
 	}
 
-	@PostMapping(value = "/gravar")
+	/*@PostMapping(value = "/gravar")
 	public ModelAndView create(Autor autor) {
 		autorService.salvaAutor(autor);
 		return new ModelAndView("redirect:/autores/list");
+	}*/
+	
+	
+	@RequestMapping(value = "/gravar")
+	public ModelAndView create(@ModelAttribute("autor") @Valid Autor autor, BindingResult bindingResult) 
+	{
+			if (bindingResult.hasErrors()) 
+			{
+		return new ModelAndView("autores/autor");
+			}
+			autorService.salvaAutor(autor);
+		return new ModelAndView("redirect:/autores/list");
 	}
+
 
 	@GetMapping("/alterar/{id}")
 	public ModelAndView update(@PathVariable("id") Long id) {

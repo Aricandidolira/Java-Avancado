@@ -9,11 +9,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<center>
 					<h1>Inclusão/Alteração de Livros</h1>
 					<br/>
+					
 					<form th:action="@{/livros/gravar}"
-    				method="post" th:object="${livro}" action="#" >
+    				method="post" th:object="${livro}" action="#" >    				
     				<input type="hidden"  th:field="*{id}" />
-    				Nome: <input type="text" name="nome" th:field="*{nome}"> <br/>
-    				Quantidade Páginas: <input type="text" name="quantidadePaginas" th:field="*{quantidadePaginas}"><br/>
+    				Nome: <input type="text" name="nome" th:field="*{nome}">
+    				<span  th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span><br/><br/>
+    				Quantidade Páginas: <input type="text" name="quantidadePaginas" th:field="*{quantidadePaginas}">
+    				<span th:if="${#fields.hasErrors('quantidadePaginas')}" th:errors="*{quantidadePaginas}">Error</span><br/>
     				<select th:object="${livro}" th:field="*{autor}">
    	 					<option value="">Selecione o Autor</option>
    	 						<option th:each="autor : ${autores}"
@@ -22,6 +25,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     				</select><br/>
     				<input type="submit" value="Enviar">
 					</form>
+					
+					
 
 				</center>
 			</body>

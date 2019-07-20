@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Autor {
@@ -12,29 +14,37 @@ public class Autor {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@NotNull
+	@Size(min = 2, max = 100)
 	private String nome;
 	
 	@OneToMany(mappedBy = "autor")
 	private List<Livro> livros = new ArrayList<>();
 	
-	public List<Livro> getLivros() {
+	public List<Livro> getLivros() 
+	{
 		return livros;
 	}
-	public void setLivros(List<Livro> livros) {
+	public void setLivros(List<Livro> livros) 
+	{
 		this.livros = livros;
 	}
-	public Long getId() {
+	public Long getId() 
+	{
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Long id) 
+	{
 		this.id = id;
 	}
-	public String getNome() {
+	public String getNome() 
+	{
 		return nome;
 	}
-	public void setNome(String nome) {
+	public void setNome(String nome) 
+	{
 		this.nome = nome;
 	}
-	
 	
 }

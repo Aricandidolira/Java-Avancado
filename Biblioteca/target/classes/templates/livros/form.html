@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      >
+
+	<head>
+	    <meta charset="UTF-8" />
+	    <title>Biblioteca</title>
+	
+	    <!-- Bootstrap -->
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.min.css}" />
+	    <link rel="stylesheet" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}" />
+	
+	</head>
+    <body style="background-color:black;">
+        <center>
+
+                     <div class="container">
+                <nav class="navbar navbar-default  navbar-dark bg-dark">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" th:href="@{/}">
+                            <img th:src="@{/img/livros.png}" src="../static/img/livros.jpg" width="50px" /></a>
+                    </div>
+                    <ul class="nav nav-pills">
+                        <br>
+                        <li   class="nav-item" sec:authorize="hasAuthority('ROLE_BASIC')"><a class="nav-link active text-white bg-dark" th:href="@{/livros/list}" href="#"> Livros </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_BASIC')"><a class="nav-link active" th:href="@{/autores/list}" href="#"> Autores </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a class="nav-link active" th:href="@{/registration}" href="#"> Cadastro </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a  class="nav-link active" th:href="@{/login}" href="#"> Entrar </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_ADMIN')" ><a class="nav-link active" th:href="@{/listadmin}" href="#"> Lista Administradores</a>
+                        </li>
+                          </li>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_BASIC')" ><a class="nav-link active" th:href="@{/list}" href="#"> Lista Usuários</a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAuthenticated()"><a  class="nav-link active" th:href="@{/logout}" href="#"> Sair </a>
+                        </li>
+                    </ul>
+                </nav>           
+                <div layout:fragment="content">
+					<nav layout:fragment="header" aria-label="breadcrumb" role="navigation">
+					    <ol class="breadcrumb">
+					        <li class="breadcrumb-item"><a href="#" th:href="@{/livros/list}">Livros</a></li>
+					        <li class="breadcrumb-item active" aria-current="page">Novo Livro</li>
+					    </ol>
+					</nav>
+					
+				<div layout:fragment="content" class="container">
+				
+				    <form id="livroForm" th:action="@{/livros/gravar}" method="post" th:object="${livro}" action="#" >
+				        <div class="form-group row">
+					            <input type="hidden"  th:field="*{id}" />
+					
+					            <label style="color:white";for="staticTitulo" class="col-sm-12 col-form-label">Título</label>
+					            <div class="col-sm-13">
+					                <input type="text" th:field="*{nome}"  class="form-control-plaintext" id="staticTitulo" >
+					                <span  th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome Error</span>
+					            </div>
+					            <br> 
+					            <label style="color:white"; for="staticTitulo" class="col-sm-12 col-form-label">Autor</label>
+					            <div class="col-sm-13" style="width:250px"; >
+					                <select form="livroForm" th:object="${livro}" th:field="*{autor}" class="form-control">
+					                    <option value="">Selecione o Autor</option>
+					                    <option th:each="autor : ${autores}" th:value="${autor.id}" th:utext="${autor.nome} " selected="selected"></option>
+					                </select>
+					            </div>
+					               <br> 
+					            <label style="color:white"; for="staticPaginas" class="col-sm-12 col-form-label">Total Páginas</label>
+					            <div class="col-sm-13">
+					                <input type="text" th:field="*{quantidadePaginas}" class="form-control-plaintext" id="staticPaginas" >
+					                <span  th:if="${#fields.hasErrors('quantidadePaginas')}" th:errors="*{quantidadePaginas}">Quantidade de pagina Error</span>
+					           <br> <br>
+					                     <button style="color:white"; type="submit" class="btn btn-primary">gravar</button>
+					            </div>
+					  
+					        </div>
+					    </form>
+					</div>
+			</div>
+		</center>
+</body>
+</html>

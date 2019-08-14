@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      >
+
+	<head>
+	    <meta charset="UTF-8" />
+	    <title>Biblioteca</title>
+	
+	    <!-- Bootstrap -->
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.min.css}" />
+	    <link rel="stylesheet" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}" />
+	
+	</head>
+  <body style="background-color:black;">
+        <center>
+
+            <div class="container">
+                <nav class="navbar navbar-default navbar-static-top navbar-dark bg-dark">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" th:href="@{/}">
+                            <img th:src="@{/img/livros.png}" src="../static/img/livros.jpg" width="50px" /></a>
+                    </div>
+                    <ul class="nav nav-pills">
+                        <br>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a class="nav-link active" th:href="@{/registration}" href="#"> Cadastro </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a  class="nav-link active" th:href="@{/login}" href="#"> Entrar </a>
+                        </li>
+                    </ul>
+                </nav>
+                <br>                
+                
+                <div layout:fragment="content">
+					<h2 layout:fragment="header" class="col-sm-11"  style="color:blue";>Login</h2>
+					<br>
+				    <form name="f" th:action="@{/login}" method="post">
+				    <br>
+					    <div class="form-group row">
+							<div style="color:white" th:if="${param.error}" class="alert alert-error col-sm-11"> Usuário ou senha inválido. 
+							</div>
+
+					    	<label style="color:white"; for="username" class="col-sm-11 col-form-label">Usuário</label>
+					        <div class="col-sm-11">
+					            <input type="text" id="username" name="username" class="form-control-plaintext" />
+					        </div>
+					        <label style="color:white"; for="username" class="col-sm-11 col-form-label"></label>
+					        <div class="col-sm-11">
+					            
+					        </div>
+					    	<label style="color:white"; for="password" class="col-sm-11 col-form-label">Senha</label>
+					        <div class="col-sm-11">
+					            <input type="password" id="password" name="password" class="form-control-plaintext" />
+					       <br><br>
+					       <button style="color:white"; type="submit" class="btn btn-primary">Log in</button>
+					        </div>
+					        
+					    </div>
+				    </form>
+				</div>
+		</div>
+	</body>
+	 </center>
+</html>

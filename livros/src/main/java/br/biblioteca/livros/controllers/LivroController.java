@@ -1,10 +1,13 @@
 package br.biblioteca.livros.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
+import br.biblioteca.livros.entidades.Autor;
+import br.biblioteca.livros.entidades.Livro;
+import br.biblioteca.livros.repository.AutorRepository;
+import br.biblioteca.livros.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,63 +17,64 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.biblioteca.livros.entidades.Autor;
-import br.biblioteca.livros.entidades.Livro;
-import br.biblioteca.livros.service.AutorService;
-import br.biblioteca.livros.service.LivroService;
+/**
+ * @author s2it_csilva
+ * @version : $<br/>
+ * : $
+ * @since 5/15/19 12:30 PM
+ */
 
-@RequestMapping("/livros")
 @Controller
+@RequestMapping("/livros")
 public class LivroController {
 
-	@Autowired
-	LivroService livroService;
+    @Autowired
+    private LivroRepository livroRepository;
 
-	@Autowired
-	AutorService autorService;
+    @Autowired
+    private AutorRepository autorRepository;
 
-	@GetMapping("/list")
-	public ModelAndView list() {
-		List<Livro> livros = livroService.listarLivros();
-		return new ModelAndView("livros/list", "listaLivros", livros);
-	}
+    @GetMapping("/list")
+    public ModelAndView livros() {
+        Iterable<Livro> livros = livroRepository.findAll();
+        return new ModelAndView("livros/list", "livros", livros);
+    }
 
-	@GetMapping("/novo")
-	public ModelAndView newBook(@ModelAttribute Livro livro) {
-		ModelAndView modelAndView = new ModelAndView("livros/livro");
-		Iterable<Autor> autores = autorService.listarAutores();
-		modelAndView.addObject("autores", autores);
-		return modelAndView;
-	}
+    @GetMapping("/novo")
+    public ModelAndView createForm(@ModelAttribute Livro livro) {
+        ModelAndView modelAndView = new ModelAndView("livros/form");
+        Iterable<Autor> autores = autorRepository.findAll();
+        modelAndView.addObject("autores", autores);
+        return modelAndView;
+    }
 
-	@GetMapping("/excluir/{id}")
-	public ModelAndView delete(@PathVariable("id") Long id) {
-		livroService.apagarLivro(id);
-		return new ModelAndView("redirect:/livros/list");
-	}
 
-	/*
-	 * @PostMapping(value = "/gravar") public ModelAndView create(Livro livro) {
-	 * livroService.salvaLivro(livro); return new
-	 * ModelAndView("redirect:/livros/list"); }
-	 */
+    @PostMapping(value = "/gravar")
+    public ModelAndView create(@Valid Livro livro, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Iterable<Autor> autores = autorRepository.findAll();
+            return new ModelAndView("livros/form", "autores", autores);
+        }
+        livro = this.livroRepository.save(livro);
+        return new ModelAndView("redirect:/livros/list");
+    }
 
-	@RequestMapping(value = "/gravar")
-	public ModelAndView create(@ModelAttribute("livro") @Valid Livro livro, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return new ModelAndView("livros/livro");
-		}
-		livroService.salvaLivro(livro);
-		return new ModelAndView("redirect:/livros/list");
-	}
+    @GetMapping("/alterar/{id}")
+    public ModelAndView alterar(@PathVariable("id") Long id) {
+        Livro livro = this.livroRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado"));
+        Iterable<Autor> autores = autorRepository.findAll();
+        ModelAndView modelAndView = new ModelAndView("livros/form");
+        modelAndView.addObject("autores", autores);
+        modelAndView.addObject("livro", livro);
+        return modelAndView;
+    }
 
-	@GetMapping("/alterar/{id}")
-	public ModelAndView update(@PathVariable("id") Long id) {
-		Livro livro = livroService.buscarLivro(id);
-		List<Autor> autores = autorService.listarAutores();
-		ModelAndView modelAndView = new ModelAndView("livros/livro");
-		modelAndView.addObject("autores", autores);
-		modelAndView.addObject("livro", livro);
-		return modelAndView;
-	}
+    @GetMapping("/excluir/{id}")
+    public ModelAndView excluir(@PathVariable("id") Long id) {
+        Livro livro = this.livroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado"));
+        this.livroRepository.delete(livro);
+        return new ModelAndView("redirect:/livros/list");
+    }
+
 }

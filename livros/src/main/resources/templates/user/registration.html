@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      >
+
+	<head>
+	    <meta charset="UTF-8" />
+	    <title>Biblioteca</title>
+	
+	    <!-- Bootstrap -->
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.min.css}" />
+	    <link rel="stylesheet" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}" />
+	
+	</head>
+  <body style="background-color:black;">
+        <center>
+
+            <div class="container">
+                <nav class="navbar navbar-default navbar-static-top navbar-dark bg-dark">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" th:href="@{/}">
+                            <img th:src="@{/img/livros.png}" src="../static/img/livros.jpg" width="50px" /></a>
+                    </div>
+                    <ul class="nav nav-pills">
+                        <br>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a class="nav-link active" th:href="@{/registration}" href="#"> Cadastro </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a  class="nav-link active" th:href="@{/login}" href="#"> Entrar </a>
+                        </li>
+                    </ul>
+                </nav>
+                <br>                
+                
+                <div layout:fragment="content">
+					<h2 layout:fragment="header" class="col-sm-11"  style="color:blue";>Cadastro</h2>
+					<br>
+				<div layout:fragment="content" class="container">
+				    <form id="userForm" th:action="@{/registration}" th:object="${userForm}" action="#" method="post">
+				    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						    <div class="form-group row">
+						    	<label style="color:white"; for="username" class="col-sm-11 col-form-label">Usuário</label>
+						        <div class="col-sm-11">
+						        	<input type="text" th:field="*{username}" id="username" name="username" class="form-control-plaintext"/>
+						        	<span class="col-sm-11" style="color:white" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Nome Error</span>
+						        </div>
+						    	<label style="color:white"; for="password" class="col-sm-11 col-form-label">Senha</label>
+						        <div class="col-sm-11">
+						        	<input type="text" th:field="*{password}" id="password" name="password" class="form-control-plaintext" />
+						        	<span class="col-sm-11" style="color:white" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Nome Error</span>
+						        <br><br>
+						        <button style="color:white"; type="submit" class="btn btn-primary">Confirmar</button>
+						        </div>
+						        
+					    </div>
+				    </form>
+				</div>
+		</div>
+	</body>
+	 </center>
+</html>

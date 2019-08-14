@@ -1,5 +1,6 @@
 package br.biblioteca.livros.controllers;
 
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import br.biblioteca.livros.entidades.Autor;
 import br.biblioteca.livros.service.AutorService;
 
+
 @RequestMapping("/autores")
 @Controller
-public class AutorController {
+public class AutorController
+{
 	
 	@Autowired
 	AutorService autorService;

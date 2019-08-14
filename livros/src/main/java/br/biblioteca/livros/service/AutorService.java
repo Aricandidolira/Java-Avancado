@@ -10,7 +10,8 @@ import br.biblioteca.livros.entidades.Autor;
 import br.biblioteca.livros.repository.AutorRepository;
 
 @Service
-public class AutorService {
+public class AutorService 
+{
 
 	@Autowired
 	AutorRepository repository;
@@ -20,11 +21,13 @@ public class AutorService {
 		return repository.findAll();
 	}
 
-	public void salvaAutor(Autor autor) {
+	public void salvaAutor(Autor autor) 
+	{
 		repository.save(autor);
 	}
 
-	public void apagarAutor(Long id) {
+	public void apagarAutor(Long id) 
+	{
 		Optional<Autor> autor = repository.findById(id);
 		if (autor.isPresent()) 
 		{
@@ -32,7 +35,8 @@ public class AutorService {
 		}
 	}
 	
-	public Autor buscarAutor(Long id) {
+	public Autor buscarAutor(Long id)
+	{
 		Optional<Autor> autor = repository.findById(id);
 		return autor.orElse(null);
 	}

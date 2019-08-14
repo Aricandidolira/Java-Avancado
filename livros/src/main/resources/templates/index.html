@@ -1,12 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      >
+
 	<head>
-		<meta charset="UTF-8" />
-			<title>Livros</title>
+	    <meta charset="UTF-8" />
+	    <title>Biblioteca</title>
+	
+	    <!-- Bootstrap -->
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+	    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap-theme.min.css}" />
+	    <link rel="stylesheet" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}" />
+	
 	</head>
-			<body>
-				<center>
-					<h1>Welcome</h1>
-				</center>
-			</body>
+    <body style="background-color:black;">
+        <center>
+
+            <div class="container">
+                <nav class="navbar navbar-default  navbar-dark bg-dark">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" th:href="@{/}">
+                            <img th:src="@{/img/livros.png}" src="../static/img/livros.jpg" width="50px" /></a>
+                    </div>
+                    <ul class="nav nav-pills">
+                        <br>
+                        <li   class="nav-item" sec:authorize="hasAuthority('ROLE_BASIC')"><a class="nav-link active text-white bg-dark" th:href="@{/livros/list}" href="#"> Livros </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_BASIC')"><a class="nav-link active" th:href="@{/autores/list}" href="#"> Autores </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a class="nav-link active" th:href="@{/registration}" href="#"> Cadastro </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAnonymous()"><a  class="nav-link active" th:href="@{/login}" href="#"> Entrar </a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_ADMIN')" ><a class="nav-link active" th:href="@{/listadmin}" href="#"> Lista Administradores</a>
+                        </li>
+                          </li>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_BASIC')" ><a class="nav-link active" th:href="@{/list}" href="#"> Lista Usuários</a>
+                        </li>
+                        <li class="nav-item"  sec:authorize="isAuthenticated()"><a  class="nav-link active" th:href="@{/logout}" href="#"> Sair </a>
+                        </li>
+                    </ul>
+                </nav>         
+                <div layout:fragment="content">
+                	<h2 layout:fragment="header" class="col-sm-20"  style="color:white";>Seja Bem Vindo(a) e Aproveite!</h2>
+                    <div class="col-sm-20">
+                        <img class="col-sm-6" th:src="@{/img/livro.jpg}" src="../static/img/livro.jpg" width="50%" />
+                        <img class="col-sm-6" th:src="@{/img/bo.jpg}" src="../static/img/bo.jpg" width="50%" />
+                        <img class="col-sm-6" th:src="@{/img/hp.jpg}" src="../static/img/hp.jpg" width="50%" />
+                        <img class="col-sm-6" th:src="@{/img/halo.jpg}" src="../static/img/halo.jpg" width="50%" />
+                    </div>
+                </div>
+                
+             <div class="row">
+	        		<div class="col-sm-6">
+			          <div class="card">
+			            <div class="card-body">
+			              <h5 style="color:white";  class="card-title">Spring Boot</h5>
+			              <p style="color:white";  class="card-text">More details about.</p>
+			              <a style="color:white"; href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-maven-packaging" class="btn btn-primary">Clique Aqui</a>
+			            </div>
+			          </div>
+			        </div>
+			        
+			        <div class="col-sm-6">
+			          <div class="card">
+			            <div class="card-body">
+			              <h5 style="color:white"; class="card-title">GitHub</h5>
+			              <p style="color:white"; class="card-text">Conhece mais meus projeto</p>
+			              <a style="color:white";  href="https://github.com/Aricandidolira" class="btn btn-primary">Clique Aqui!</a>
+			            </div>
+			          </div>
+			        </div>
+	
+	    		  </div>
+            </div>   
+
+            <!--  JQuery -->
+            <script type="text/javascript" th:src="@{/webjars/jquery/3.1.1/jquery.min.js}" ></script>
+            <script type="text/javascript" th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}" ></script>
+            <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}" ></script>
+  </center>
+        </body>
 </html>

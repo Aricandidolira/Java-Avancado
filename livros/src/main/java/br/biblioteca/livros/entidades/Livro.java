@@ -1,5 +1,10 @@
 package br.biblioteca.livros.entidades;
+
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -8,13 +13,17 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 @Entity
 public class Livro {
-	
-	@Id
-	@GeneratedValue
-	private Long id;
-	
+
+
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+
 	@NotNull
 	@Size(min = 2, max = 100)
 	private String nome;
@@ -26,31 +35,50 @@ public class Livro {
 	@ManyToOne
 	@JoinColumn(name = "autor_id")
 	private Autor autor;
-	
-	public Autor getAutor() {
-		return autor;
-	}
-	public void setAutor(Autor autor) {
-		this.autor = autor;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public Integer getQuantidadePaginas() {
-		return quantidadePaginas;
-	}
-	public void setQuantidadePaginas(Integer quantidadePaginas) {
-		this.quantidadePaginas = quantidadePaginas;
-	}
-	
-	
+
+    public Long getId () {
+        return id;
+    }
+
+    public void setId (final Long id) {
+        this.id = id;
+    }
+
+    public String getNome () {
+        return nome;
+    }
+
+    public void setNome (final String nome) {
+        this.nome = nome;
+    }
+
+    public int getQuantidadePaginas () {
+        return quantidadePaginas;
+    }
+
+    public void setQuantidadePaginas (final int quantidadePaginas) {
+        this.quantidadePaginas = quantidadePaginas;
+    }
+
+    public Autor getAutor () {
+        return autor;
+    }
+
+    public void setAutor (final Autor autor) {
+        this.autor = autor;
+    }
+
+    @Override
+    public String toString () {
+        final StringBuilder builder = new StringBuilder()//
+                .append("Livro [")//
+                .append("id=")//
+                .append(id)//
+                .append(",nome=\"")//
+                .append(nome).append("\"")//
+                .append(",quantidadePaginas=")//
+                .append(quantidadePaginas)//
+                .append("]");
+        return builder.toString();
+    }
 }

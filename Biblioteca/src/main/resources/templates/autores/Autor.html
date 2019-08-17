@@ -23,23 +23,26 @@
                         <a class="navbar-brand" th:href="@{/}">
                             <img th:src="@{/img/livros.png}" src="../static/img/livros.jpg" width="50px" /></a>
                     </div>
-                    <ul class="nav nav-pills">
+                                           <ul class="nav nav-pills">
                         <br>
                         <li   class="nav-item" sec:authorize="hasAuthority('ROLE_BASIC')"><a class="nav-link active text-white bg-dark" th:href="@{/livros/list}" href="#"> Livros </a>
                         </li>
                         <li class="nav-item"  sec:authorize="hasAuthority('ROLE_BASIC')"><a class="nav-link active" th:href="@{/autores/list}" href="#"> Autores </a>
                         </li>
+                        
                         <li class="nav-item"  sec:authorize="isAnonymous()"><a class="nav-link active" th:href="@{/registration}" href="#"> Cadastro </a>
                         </li>
                         <li class="nav-item"  sec:authorize="isAnonymous()"><a  class="nav-link active" th:href="@{/login}" href="#"> Entrar </a>
                         </li>
-                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_ADMIN')" ><a class="nav-link active" th:href="@{/listadmin}" href="#"> Lista Administradores</a>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_ADMIN')" ><a class="nav-link active" th:href="@{/listadmin}" href="#"> Lista Usuários</a>
                         </li>
                           </li>
-                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_BASIC')" ><a class="nav-link active" th:href="@{/list}" href="#"> Lista Usuários</a>
+                         <li   class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')"><a class="nav-link active text-white bg-dark" th:href="@{/livros/listadmin}" href="#"> Edição Livro </a>
                         </li>
-                        <li class="nav-item"  sec:authorize="isAuthenticated()"><a  class="nav-link active" th:href="@{/logout}" href="#"> Sair </a>
+                        <li class="nav-item"  sec:authorize="hasAuthority('ROLE_ADMIN')"><a class="nav-link active" th:href="@{/autores/listadmin}" href="#"> Edição Autor </a>
                         </li>
+                         <li class="nav-item"  sec:authorize="isAuthenticated()"><a  class="nav-link active" th:href="@{/logout}" href="#"> Sair </a>
+                        </li>                       
                     </ul>
                 </nav>             
                 <div layout:fragment="content">

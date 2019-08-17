@@ -1,5 +1,7 @@
 package br.biblioteca.livros.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import br.biblioteca.livros.entidades.Autor;
@@ -35,13 +37,22 @@ public class LivroController {
     private AutorRepository autorRepository;
 
     @GetMapping("/list")
-    public ModelAndView livros() {
+    public ModelAndView livros() 
+    {
         Iterable<Livro> livros = livroRepository.findAll();
         return new ModelAndView("livros/list", "livros", livros);
     }
+    
+	@GetMapping("/listadmin")
+	public ModelAndView listadmin() 
+	{
+		List<Livro> livros =  livroRepository.findAll();
+		return new ModelAndView("livros/listadmin", "livros", livros);
+	}
 
     @GetMapping("/novo")
-    public ModelAndView createForm(@ModelAttribute Livro livro) {
+    public ModelAndView createForm(@ModelAttribute Livro livro) 
+    {
         ModelAndView modelAndView = new ModelAndView("livros/form");
         Iterable<Autor> autores = autorRepository.findAll();
         modelAndView.addObject("autores", autores);
@@ -50,8 +61,10 @@ public class LivroController {
 
 
     @PostMapping(value = "/gravar")
-    public ModelAndView create(@Valid Livro livro, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public ModelAndView create(@Valid Livro livro, BindingResult bindingResult) 
+    {
+        if (bindingResult.hasErrors()) 
+        {
             Iterable<Autor> autores = autorRepository.findAll();
             return new ModelAndView("livros/form", "autores", autores);
         }
@@ -60,7 +73,8 @@ public class LivroController {
     }
 
     @GetMapping("/alterar/{id}")
-    public ModelAndView alterar(@PathVariable("id") Long id) {
+    public ModelAndView alterar(@PathVariable("id") Long id) 
+    {
         Livro livro = this.livroRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado"));
         Iterable<Autor> autores = autorRepository.findAll();
@@ -71,7 +85,8 @@ public class LivroController {
     }
 
     @GetMapping("/excluir/{id}")
-    public ModelAndView excluir(@PathVariable("id") Long id) {
+    public ModelAndView excluir(@PathVariable("id") Long id) 
+    {
         Livro livro = this.livroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado"));
         this.livroRepository.delete(livro);
         return new ModelAndView("redirect:/livros/list");
